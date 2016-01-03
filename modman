@@ -1,0 +1,13 @@
+media/sisow/logo/ media/sisow/logo/
+
+app/etc/modules/Sisow.xml app/etc/modules/Sisow.xml
+app/design/frontend/base/default/template/sisow/ app/design/frontend/base/default/template/sisow/
+
+app/design/adminhtml/default/default/template/sisow/ app/design/adminhtml/default/default/template/sisow/
+
+app/code/local/Sisow/ app/code/local/Sisow/
+
+app/code/local/Sisow/ app/code/local/Sisow/
+
+app/locale/nl_NL/Sisow.csv app/locale/nl_NL/Sisow.csv
+app/locale/en_US/Sisow.csv app/locale/en_US/Sisow.csv

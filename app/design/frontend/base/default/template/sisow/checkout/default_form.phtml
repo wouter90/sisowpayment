@@ -1,0 +1,16 @@
+<?php 
+$_code = $this->getMethodCode(); 
+$_paymentfee = $this->getFee();
+?>
+
+<ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none">
+	<li>		
+		<?php
+			if($_paymentfee['incl'] > 0)
+			{
+				echo '<b>'. $this->__(Mage::getStoreConfig('payment/'.$_code.'/payment_fee_label')) .' ' . Mage::app()->getStore()->convertPrice($_paymentfee['incl'], true, true).'</b>';
+			}
+		?>
+		
+    </li>
+</ul>

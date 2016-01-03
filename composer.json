@@ -1,0 +1,5 @@
+{
+    "name": "wouter90/sisowpayment",
+    "type": "magento-module",
+    "description":"Sisow payment module for Magento",
+}
