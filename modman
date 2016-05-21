@@ -2,6 +2,7 @@ media/sisow/logo/ media/sisow/logo/
 
 app/etc/modules/Sisow.xml app/etc/modules/Sisow.xml
 app/design/frontend/base/default/template/sisow/ app/design/frontend/base/default/template/sisow/
+app/design/frontend/base/default/layout/ app/design/frontend/base/default/layout/
 
 app/design/adminhtml/default/default/template/sisow/ app/design/adminhtml/default/default/template/sisow/
 

@@ -10,14 +10,20 @@ class Sisow_CheckoutController extends Mage_Core_Controller_Front_Action
 	
 	public function returnAction()
 	{
-		if ($_GET['status'] == 'Success') {
+		$status = Mage::app()->getRequest()->getParam('status');
+		if ($status == 'Success') {
+			$url = Mage::getStoreConfig('sisow_core/url_success');
+			
+			if(empty($url))
+				$url = 'checkout/onepage/success';
+			
 			Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
 			
 			foreach (Mage::getSingleton('checkout/session')->getQuote()->getItemsCollection() as $item ) {
 				Mage::getSingleton('checkout/cart')->removeItem( $item->getId() )->save();
 			}
 		
-			return $this->_redirect("checkout/onepage/success", array("_secure" => true));
+			return $this->_redirect($url, array("_secure" => true));
 		} else {
 			//alternatieve keep cart functie
 			/*
@@ -46,7 +52,12 @@ class Sisow_CheckoutController extends Mage_Core_Controller_Front_Action
 			*/
 			Mage::getSingleton('core/session')->addError('Betaling niet gelukt');
 			
-			return $this->_redirect('checkout/cart', array("_secure" => true));
+			$url = Mage::getStoreConfig('sisow_core/url_failure');
+			
+			if(empty($url))
+				$url = 'checkout/cart';
+			
+			return $this->_redirect($url, array("_secure" => true));
 		}
 	}
 	
@@ -60,17 +71,20 @@ class Sisow_CheckoutController extends Mage_Core_Controller_Front_Action
 	
 	public function notifyAction()
 	{
-		$orderid = $_GET['ec'];
-		$trxid = $_GET['trxid'];
-		$status = $_GET['status'];
-		$sha1 = $_GET['sha1'];
+		$orderid = Mage::app()->getRequest()->getParam('ec');
+		$url_trxid = Mage::app()->getRequest()->getParam('trxid');
+		$status = Mage::app()->getRequest()->getParam('status');
+		$sha1 = Mage::app()->getRequest()->getParam('sha1');
+		
+		$notify = Mage::app()->getRequest()->getParam('notify');
+		$callback = Mage::app()->getRequest()->getParam('callback');
 		
 		/* 
 		 * Sisow
 		 * Last Adjustment: 12-02-2014
 		 * Url Check for Notify URL
 		*/
-		if($orderid == '' || $trxid == '' || $status == '' || $sha1 == '' || (!isset($_GET['notify']) && !isset($_GET['callback'])) )
+		if($orderid == '' || $url_trxid == '' || $status == '' || $sha1 == '' || (!isset($notify) && !isset($callback)) )
 		{
 			echo 'No Notify Url';
 			Mage::log($orderid . ': Incorrect NotifyUrl (request uri: '.$_SERVER['REQUEST_URI'].')', null, 'log_sisow.log');
@@ -98,7 +112,13 @@ class Sisow_CheckoutController extends Mage_Core_Controller_Front_Action
         if (method_exists($payment, 'getAdditionalInformation')) {
             $trxid = $payment->getAdditionalInformation('trxId');
         }
-        $trxid = (isset($trxid) && $trxid != '') ? $trxid : filter_input(INPUT_GET, 'trxid');
+				
+        if(!isset($trxid) || $trxid == '')
+			$trxid = $url_trxid;
+		else if ($trxid != $url_trxid && $status == 'Success')
+			$trxid = $url_trxid;
+		else if ($trxid != $url_trxid && $status != 'Success')
+			exit('Not the last transaction and the status is no success!');
 
 		$base = Mage::getModel('sisow/base');
 		
@@ -118,7 +138,9 @@ class Sisow_CheckoutController extends Mage_Core_Controller_Front_Action
 		$ostate = $order->getState();
         $ostatus = $order->getStatus();
 
-		if ($ostate == Mage_Sales_Model_Order::STATE_PROCESSING && $ostatus == Mage::getStoreConfig('sisow_core/status_success') && $base->status != 'Reversed' && $base->status != 'Refunded' && $base->status != 'Success')
+		$statussesAlwaysProcess = array("Reversed", "Refunded", "Success");
+
+		if ($ostate != Mage_Sales_Model_Order::STATE_NEW && $ostate != Mage_Sales_Model_Order::STATE_PENDING_PAYMENT && !in_array($base->status, $statussesAlwaysProcess))
 		{
 			echo 'Order state & order status already processed';
 			Mage::log($orderid . ': Order state & order status already processed.', null, 'log_sisow.log');
@@ -149,7 +171,7 @@ class Sisow_CheckoutController extends Mage_Core_Controller_Front_Action
 					$order->sendNewOrderEmail();
 									
 				if( $payment->getMethodInstance()->getCode() == 'sisow_overboeking' )
-					$base->trxId = $_GET['trxid'];
+					$base->trxId = Mage::app()->getRequest()->getParam('trxid');
 				
                 $mState = Mage_Sales_Model_Order::STATE_PROCESSING;
                 $mStatus = Mage::getStoreConfig('sisow_core/status_success');
@@ -172,7 +194,7 @@ class Sisow_CheckoutController extends Mage_Core_Controller_Front_Action
 					$order->sendNewOrderEmail();
 				
 				if( $payment->getMethodInstance()->getCode() == 'sisow_overboeking' )
-					$base->trxId = $_GET['trxid'];
+					$base->trxId = Mage::app()->getRequest()->getParam('trxid');
 					
                 $mState = Mage_Sales_Model_Order::STATE_PROCESSING;
                 $mStatus = Mage::getStoreConfig('sisow_core/status_success');
@@ -257,46 +279,47 @@ class Sisow_CheckoutController extends Mage_Core_Controller_Front_Action
 		else
 			$mail = (Mage::getStoreConfig('payment/'.$payment->getMethod().'/autoinvoice') > 0) ? Mage::getStoreConfig('payment/'.$payment->getMethod().'/autoinvoice') : Mage::getStoreConfig('sisow_core/autoinvoice');
 		
-		if ($mState == Mage_Sales_Model_Order::STATE_CANCELED) {
+		if ($mState == Mage_Sales_Model_Order::STATE_CANCELED && !Mage::getStoreConfig('sisow_core/cancelorder')) {
             $order->cancel();
             $order->setState($mState, $mStatus, $comm, true);
             $payment_transaction->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_VOID);
 
 			echo '$order->setState(' . $mState . ', ' . $mStatus . ', ' . $comm . ')';
 			
-        } elseif ($mState !== null && ($mState != $ostate || $mStatus != $ostate)) {
+        } elseif ($mState != Mage_Sales_Model_Order::STATE_CANCELED && $mState !== null && ($mState != $ostate || $mStatus != $ostate)) {			
+			if($mail > 1)
+			{
+				if ($order->canInvoice()) {
+					$invoice = $order->prepareInvoice();
+					$invoice->register()->capture();
+					$invoice->setTransactionId($trxid);
+					Mage::getModel('core/resource_transaction')
+							->addObject($invoice)
+							->addObject($invoice->getOrder())
+							->save();
+
+					if ($mail == 3) {
+						$invoice->sendEmail();
+						$invoice->setEmailSent(true);
+					}
+					$invoice->save();
+					echo 'Invoice created!';
+				}
+				else
+				{
+					echo 'Can\'t create Invoice!';
+				}
+			}
 			$order->setState($mState, $mStatus, $comm, true);
 			$payment_transaction->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE);
 			echo '$order->setState(' . $mState . ', ' . $mStatus . ', ' . $comm . ')';
         }
-		
-		//$order->save();
-		if($mail > 1)
+		else
 		{
-			if ($order->canInvoice()) {
-				$invoice = $order->prepareInvoice();
-				$invoice->register()->capture();
-				$invoice->setTransactionId($trxid);
-				Mage::getModel('core/resource_transaction')
-						->addObject($invoice)
-						->addObject($invoice->getOrder())
-						->save();
-
-				if ($mail == 3) {
-					$invoice->sendEmail();
-					$invoice->setEmailSent(true);
-				}
-				$invoice->save();
-				echo 'Invoice created!';
-			}
-			else
-			{
-				echo 'Can\'t create Invoice!';
-			}
+			$order->addStatusHistoryComment($comm);
 		}
-
+		
 		$order->save();
-        
 		exit;
 	}
 }

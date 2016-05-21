@@ -1,6 +1,7 @@
 <?php 
 $_code = $this->getMethodCode(); 
 $_paymentfee = $this->getFee();
+$_description = $this->getInstructions();
 ?>
 <script>
 var j = jQuery.noConflict();
@@ -16,6 +17,13 @@ j(document).ready(function() {
 				echo '<b>'. $this->__(Mage::getStoreConfig('payment/'.$_code.'/payment_fee_label')) .' ' . Mage::app()->getStore()->convertPrice($_paymentfee['incl'], true, true).'</b>';
 			}
 		?>
+		
+		<?php 
+				if(!empty($_description))
+				{
+					echo '<p>' . $_description . '</p>';
+				}
+			?>
 		
 		
 		<img src="<?php print_r(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . DS . 'sisow' . DS . 'logo' . DS . 'sisow_eps' . '.' . 'png'); ?>" width="60px">

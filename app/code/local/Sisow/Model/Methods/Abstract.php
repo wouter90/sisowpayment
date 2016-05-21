@@ -34,6 +34,11 @@ abstract class Sisow_Model_Methods_Abstract extends Mage_Payment_Model_Method_Ab
 		$url .= 'method='.$this->_paymentcode;
 		return $url;
     }
+	
+	public function getPaymentInstructions()
+	{
+		return Mage::getStoreConfig('payment/sisow_'.$this->_paymentcode.'/instructions');
+	}
 		
 	public function getFeeArray()
 	{
@@ -105,9 +110,21 @@ abstract class Sisow_Model_Methods_Abstract extends Mage_Payment_Model_Method_Ab
 				else
 				{
 					Mage::getSingleton('adminhtml/session')->addSuccess( Mage::helper('sisow')->__("Klarna Invoice created") . '!' );
+										
+					$comm = $this->_paymentcode == 'focum' ? "Sisow: Focum Factuur aangemaakt. <br/>" : "Sisow: Klarna Factuur aangemaakt. <br/>";
+					if(!empty($base->invoiceNo))
+					{
+						$comm .= 'Factuurnummer: ' . $base->invoiceNo . '. <br/>';
+						if($this->_paymentcode == 'klarna' || $this->_paymentcode == 'klarnaacc')
+							$comm .= "<a href=\"https://online.klarna.com/invoices/".$base->invoiceNo.".pdf\" target=\"_blank\">Open Klarna Factuur</a>";
+					}
+					$order = $invoice->getOrder();
+					$order->addStatusHistoryComment($comm);
+					$order->save();
 				}
 			}
 		}
+		
         return $this;
     }
 	

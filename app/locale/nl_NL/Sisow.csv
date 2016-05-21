@@ -46,3 +46,5 @@
 "After notification, excluding cancelled order", "Na notificatie, ex mislukte betalingen"
 "Display paymentlogo", "Toon logo"
 "Display payment method logo on checkout page.", "Toon logo van de betaalmogelijkheid in de checkout."
+"Redirect URL after a success transaction, leave empty to use default.","Redirect URL na een success transactie, laat leeg om de standaard URL te gebruiken."
+"Redirect URL after a failed transaction, leave empty to use default.","Redirect URL na een gefaalde transactie, laat leeg om de standaard URL te gebruiken."

@@ -224,6 +224,11 @@
     </adminhtml>
 	<default>
 		<payment>
+			<settings>
+				<sisow_urlsuccess>checkout/onepage/success</sisow_urlsuccess>
+				<sisow_urlfailed>checkout/cart</sisow_urlfailed>
+				<cancelorder>yes</cancelorder>
+			</settings>
 			<sisow_ideal>
 				<group>sisow</group>
 				<active>0</active>

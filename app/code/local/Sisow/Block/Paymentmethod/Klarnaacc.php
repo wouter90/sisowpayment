@@ -12,6 +12,11 @@ class Sisow_Block_Paymentmethod_Klarnaacc extends Mage_Payment_Block_Form
 		return $this->getMethod()->getFeeArray();
 	}
 	
+	public function getInstructions()
+	{
+		return $this->getMethod()->getPaymentInstructions();
+	}
+	
 	public function getPhone() {
 		return $this->getMethod()->getPhone();
 	}

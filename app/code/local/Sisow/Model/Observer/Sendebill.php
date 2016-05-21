@@ -55,7 +55,6 @@ class Sisow_Model_Observer_Sendebill
 			$st = Mage_Sales_Model_Order::STATE_PENDING_PAYMENT;
 			$payment->setAdditionalInformation('trxId', $base->trxId)
 				->setAdditionalInformation('documentId', $base->documentId)
-				->setAdditionalInformation('linkPdf', $base->GetLink(''))
 				->save();
 			$order->setState($st, $st, $comm);
 			$order->save();

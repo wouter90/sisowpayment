@@ -76,7 +76,7 @@ class Sisow_Block_Redirect extends Mage_Core_Block_Abstract
 		foreach($order->getAllVisibleItems() as $item)
 		{
 			$i++;
-			$arg['product_id_' . $i] = $item->getSku();
+			$arg['product_id_' . $i] = !empty($item->getSku()) ? $item->getSku() : 'sku' . $i;
 			$arg['product_description_' . $i] = $item->getName();
 			$arg['product_quantity_' . $i] = (int)($item->getQtyOrdered() ? $item->getQtyOrdered() : $item->getQty());
 			$arg['product_tax_' . $i] = round($item->getTaxAmount() * 100, 0);
@@ -208,8 +208,12 @@ class Sisow_Block_Redirect extends Mage_Core_Block_Abstract
 			if($method == 'klarnaacc')
 				$arg['pclass'] = $_GET['pclass'];
 		}
-
-		$arg['currency'] = $order->getBaseCurrencyCode();
+		
+		if(Mage::getStoreConfig('sisow_core/basecurrency'))
+			$arg['currency'] = $order->getBaseCurrencyCode();
+		else
+			$arg['currency'] = $order->getOrderCurrencyCode();		
+		
 		$arg['tax'] = round( ($order->getBaseTaxAmount() * 100.0) );
 		$arg['weight'] = round( ($order->getWeight() * 100.0) );
 		$arg['shipping'] = round( ($order->getBaseShippingAmount() * 100.0) );
@@ -238,7 +242,11 @@ class Sisow_Block_Redirect extends Mage_Core_Block_Abstract
 		if(isset($_GET['issuer']))
 			$base->issuerId = $_GET['issuer'];
 			
-		$base->amount = $order->getBaseGrandTotal();
+		if(Mage::getStoreConfig('sisow_core/basecurrency'))
+			$base->amount = $order->getBaseGrandTotal();
+		else
+			$base->amount = $order->getGrandTotal();
+		
 		if ($method == 'overboeking') {
 			$base->purchaseId = $order->getCustomerId() . $orderIncrementId;
 			$base->entranceCode = $orderIncrementId;
@@ -260,8 +268,12 @@ class Sisow_Block_Redirect extends Mage_Core_Block_Abstract
 				Mage::getSingleton('checkout/session')->addError("Betalen met Achteraf Betalen is op dit moment niet mogelijk, betaal anders.");
 			else
 				Mage::getSingleton('checkout/session')->addError("Sisow: " . $this->__('No communication')." (". $ex .", ". $base->errorCode . ")");
-			$order->cancel();
-			$order->save();
+			
+			if(!Mage::getStoreConfig('sisow_core/cancelorder'))
+			{
+				$order->cancel();
+				$order->save();
+			}
 			
 			$url = Mage::getUrl('checkout/cart');
 			header('Location: ' . $url);

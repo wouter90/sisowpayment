@@ -16,6 +16,11 @@ class Sisow_Block_Paymentmethod_Focum extends Mage_Payment_Block_Form
 		return $this->getMethod()->getPhone();
 	}
 	
+	public function getInstructions()
+	{
+		return $this->getMethod()->getPaymentInstructions();
+	}
+	
 	public function getDates()
 	{
 		$days = array();

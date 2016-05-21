@@ -2,6 +2,7 @@
 $paymentfee = $this->getFee();
 $phone = $this->getPhone();
 $_code = $this->getMethodCode(); 
+$_description = $this->getInstructions();
 
 ?>
 
@@ -12,6 +13,13 @@ $_code = $this->getMethodCode();
 				if($_paymentfee['incl'] > 0)
 				{
 					echo '<b>'. $this->__(Mage::getStoreConfig('payment/'.$_code.'/payment_fee_label')) .' ' . Mage::app()->getStore()->convertPrice($_paymentfee['incl'], true, true).'</b>';
+				}
+			?>
+			
+			<?php 
+				if(!empty($_description))
+				{
+					echo '<p>' . $_description . '</p>';
 				}
 			?>
 			

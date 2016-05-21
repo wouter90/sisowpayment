@@ -5,6 +5,7 @@ $fee = $paymentfee['incl'];
 $phone = $this->getPhone();
 $_code = $this->getMethodCode(); 
 $countryiso = $this->GetCountryIso();
+$_description = $this->getInstructions();
 
 $name = ($countryiso == "DE") ? "Klarna Rechnung" : "Klarna Factuur";
 ?>
@@ -28,6 +29,14 @@ $name = ($countryiso == "DE") ? "Klarna Rechnung" : "Klarna Factuur";
 			<?php
 			}
 			?>
+			
+			<?php 
+				if(!empty($_description))
+				{
+					echo '<p>' . $_description . '</p>';
+				}
+			?>
+			
 			<!--<br/><b>Let op: verwerking/acceptatie kan tot 30 seconden duren.</b>
 			<br/>-->
 			<br/>

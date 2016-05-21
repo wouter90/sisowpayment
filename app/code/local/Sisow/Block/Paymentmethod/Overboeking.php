@@ -11,5 +11,10 @@ class Sisow_Block_Paymentmethod_Overboeking extends Mage_Payment_Block_Form
 	{	
 		return $this->getMethod()->getFeeArray();
 	}
+	
+	public function getInstructions()
+	{
+		return $this->getMethod()->getPaymentInstructions();
+	}
 }
 ?>

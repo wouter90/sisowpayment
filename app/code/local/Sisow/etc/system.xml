@@ -30,7 +30,7 @@
                             <comment><![CDATA[The Merchant ID form Sisow. You can find this in your Sisow profile.]]></comment>
                             <frontend_type>text</frontend_type>
 							<config_path>sisow_core/merchantid</config_path>
-                            <sort_order>10</sort_order>
+                            <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -40,7 +40,7 @@
                             <comment><![CDATA[The Merchant Key form Sisow. You can find this in your Sisow profile.]]></comment>
                             <frontend_type>text</frontend_type>
 							<config_path>sisow_core/merchantkey</config_path>
-                            <sort_order>20</sort_order>
+                            <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -50,7 +50,7 @@
                             <comment><![CDATA[The ShopID form Sisow. You can find this in your Sisow profile.]]></comment>
                             <frontend_type>text</frontend_type>
 							<config_path>sisow_core/shopid</config_path>
-                            <sort_order>30</sort_order>
+                            <sort_order>150</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -60,7 +60,7 @@
 							<frontend_type>select</frontend_type>
 							<config_path>sisow_core/newordermail</config_path>
 							<source_model>sisow/config_newordermail</source_model>
-							<sort_order>35</sort_order>
+							<sort_order>200</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
@@ -71,7 +71,7 @@
                             <frontend_type>select</frontend_type>
 							<config_path>sisow_core/gatewayimage</config_path>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>36</sort_order>
+                            <sort_order>250</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -82,17 +82,48 @@
                             <frontend_type>select</frontend_type>
 							<config_path>sisow_core/keepcart</config_path>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>37</sort_order>
+                            <sort_order>300</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </keepcart>
+						<sisow_urlsuccess>
+                            <label>Redirect url na 'Success'</label>
+							<comment><![CDATA[Redirect URL after a success transaction, leave empty to use default.]]></comment>
+                            <frontend_type>text</frontend_type>
+							<config_path>sisow_core/url_success</config_path>
+                            <sort_order>315</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sisow_urlsuccess>
+						<sisow_urlfailed>
+                            <label>Redirect url na 'Failure'</label>
+                            <frontend_type>text</frontend_type>
+							<config_path>sisow_core/url_failure</config_path>
+							<comment><![CDATA[Redirect URL after a failed transaction, leave empty to use default.]]></comment>
+                            <sort_order>330</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sisow_urlfailed>
+						<basecurrency translate="label">
+                            <label>Base Currency</label>
+							<comment><![CDATA[Use on every order the Base Currency of the store.]]></comment>
+                            <frontend_type>select</frontend_type>
+							<config_path>sisow_core/basecurrency</config_path>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>350</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </basecurrency>
 						<order_status_success translate="label">
 							<label>Order status 'success'</label>
 							<frontend_type>select</frontend_type>
 							<config_path>sisow_core/status_success</config_path>
 							<source_model>adminhtml/system_config_source_order_status</source_model>
-							<sort_order>40</sort_order>
+							<sort_order>400</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
@@ -102,7 +133,7 @@
 							<frontend_type>select</frontend_type>
 							<config_path>sisow_core/status_cancelled</config_path>
 							<source_model>adminhtml/system_config_source_order_status</source_model>
-							<sort_order>50</sort_order>
+							<sort_order>450</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
@@ -112,7 +143,7 @@
 							<frontend_type>select</frontend_type>
 							<config_path>sisow_core/status_expired</config_path>
 							<source_model>adminhtml/system_config_source_order_status</source_model>
-							<sort_order>60</sort_order>
+							<sort_order>500</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
@@ -122,18 +153,29 @@
 							<frontend_type>select</frontend_type>
 							<config_path>sisow_core/status_failure</config_path>
 							<source_model>adminhtml/system_config_source_order_status</source_model>
-							<sort_order>70</sort_order>
+							<sort_order>550</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</order_status_failure>
+						<cancelorder translate="label">
+                            <label>Don't cancel orders</label>
+							<comment><![CDATA[Don't cancel the failed orders.]]></comment>
+                            <frontend_type>select</frontend_type>
+							<config_path>sisow_core/cancelorder</config_path>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>575</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cancelorder>
 						<order_status_reservation translate="label,comment">
 							<label>Order status 'reservation'</label>
 							<comment><![CDATA[Only for Klarna Invoice and Klarna Account.]]></comment>
 							<frontend_type>select</frontend_type>
 							<config_path>sisow_core/status_reservation</config_path>
 							<source_model>adminhtml/system_config_source_order_status</source_model>
-							<sort_order>80</sort_order>
+							<sort_order>600</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
@@ -143,7 +185,7 @@
 							<frontend_type>select</frontend_type>
 							<config_path>sisow_core/autoinvoice</config_path>
 							<source_model>sisow/config_generalAutoinvoice</source_model>
-							<sort_order>90</sort_order>
+							<sort_order>650</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
@@ -262,6 +304,14 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</specificcountry>
+						<instructions translate="label">
+                            <label>Payment Instructions</label>
+							<config_path>payment/sisow_ideal/instructions</config_path>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instructions>
 						<payment_fee translate="label">
                             <label>Payment fee</label>
 							<config_path>payment/sisow_ideal/payment_fee</config_path>
@@ -416,6 +466,14 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</specificcountry>
+						<instructions translate="label">
+                            <label>Payment Instructions</label>
+							<config_path>payment/sisow_mistercash/instructions</config_path>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instructions>
 						<payment_fee translate="label">
                             <label>Payment fee</label>
 							<config_path>payment/sisow_mistercash/payment_fee</config_path>
@@ -570,6 +628,14 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</specificcountry>
+						<instructions translate="label">
+                            <label>Payment Instructions</label>
+							<config_path>payment/sisow_homepay/instructions</config_path>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instructions>
 						<payment_fee translate="label">
                             <label>Payment fee</label>
 							<config_path>payment/sisow_homepay/payment_fee</config_path>
@@ -724,6 +790,14 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</specificcountry>
+						<instructions translate="label">
+                            <label>Payment Instructions</label>
+							<config_path>payment/sisow_giropay/instructions</config_path>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instructions>
 						<payment_fee translate="label">
                             <label>Payment fee</label>
 							<config_path>payment/sisow_giropay/payment_fee</config_path>
@@ -878,6 +952,14 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</specificcountry>
+						<instructions translate="label">
+                            <label>Payment Instructions</label>
+							<config_path>payment/sisow_sofort/instructions</config_path>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instructions>
 						<payment_fee translate="label">
                             <label>Payment fee</label>
 							<config_path>payment/sisow_sofort/payment_fee</config_path>
@@ -1032,6 +1114,14 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</specificcountry>
+						<instructions translate="label">
+                            <label>Payment Instructions</label>
+							<config_path>payment/sisow_eps/instructions</config_path>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instructions>
 						<payment_fee translate="label">
                             <label>Payment fee</label>
 							<config_path>payment/sisow_eps/payment_fee</config_path>
@@ -1186,6 +1276,14 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</specificcountry>
+						<instructions translate="label">
+                            <label>Payment Instructions</label>
+							<config_path>payment/sisow_visa/instructions</config_path>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instructions>
 						<payment_fee translate="label">
                             <label>Payment fee</label>
 							<config_path>payment/sisow_visa/payment_fee</config_path>
@@ -1340,6 +1438,14 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</specificcountry>
+						<instructions translate="label">
+                            <label>Payment Instructions</label>
+							<config_path>payment/sisow_mastercard/instructions</config_path>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instructions>
 						<payment_fee translate="label">
                             <label>Payment fee</label>
 							<config_path>payment/sisow_mastercard/payment_fee</config_path>
@@ -1494,6 +1600,14 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</specificcountry>
+						<instructions translate="label">
+                            <label>Payment Instructions</label>
+							<config_path>payment/sisow_maestro/instructions</config_path>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instructions>
 						<payment_fee translate="label">
                             <label>Payment fee</label>
 							<config_path>payment/sisow_maestro/payment_fee</config_path>
@@ -1667,6 +1781,14 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</specificcountry>
+						<instructions translate="label">
+                            <label>Payment Instructions</label>
+							<config_path>payment/sisow_overboeking/instructions</config_path>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instructions>
 						<payment_fee translate="label">
                             <label>Payment fee</label>
 							<config_path>payment/sisow_overboeking/payment_fee</config_path>
@@ -1821,6 +1943,14 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</specificcountry>
+						<instructions translate="label">
+                            <label>Payment Instructions</label>
+							<config_path>payment/sisow_paypalec/instructions</config_path>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instructions>
 						<payment_fee translate="label">
                             <label>Payment fee</label>
 							<config_path>payment/sisow_paypalec/payment_fee</config_path>
@@ -2003,6 +2133,14 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</specificcountry>
+						<instructions translate="label">
+                            <label>Payment Instructions</label>
+							<config_path>payment/sisow_klarna/instructions</config_path>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instructions>
 						<payment_fee translate="label">
                             <label>Payment fee</label>
 							<config_path>payment/sisow_klarna/payment_fee</config_path>
@@ -2185,6 +2323,14 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</specificcountry>
+						<instructions translate="label">
+                            <label>Payment Instructions</label>
+							<config_path>payment/sisow_klarnaacc/instructions</config_path>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instructions>
 						<payment_fee translate="label">
                             <label>Payment fee</label>
 							<config_path>payment/sisow_klarnaacc/payment_fee</config_path>
@@ -2329,6 +2475,14 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</specificcountry>
+						<instructions translate="label">
+                            <label>Payment Instructions</label>
+							<config_path>payment/sisow_focum/instructions</config_path>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instructions>
 						<payment_fee translate="label">
                             <label>Payment fee</label>
 							<config_path>payment/sisow_focum/payment_fee</config_path>
@@ -2483,6 +2637,14 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</specificcountry>
+						<instructions translate="label">
+                            <label>Payment Instructions</label>
+							<config_path>payment/sisow_vvv/instructions</config_path>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instructions>
 						<payment_fee translate="label">
                             <label>Payment fee</label>
 							<config_path>payment/sisow_vvv/payment_fee</config_path>
@@ -2637,6 +2799,14 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</specificcountry>
+						<instructions translate="label">
+                            <label>Payment Instructions</label>
+							<config_path>payment/sisow_webshop/instructions</config_path>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instructions>
 						<payment_fee translate="label">
                             <label>Payment fee</label>
 							<config_path>payment/sisow_webshop/payment_fee</config_path>

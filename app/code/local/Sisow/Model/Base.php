@@ -286,6 +286,8 @@ class Sisow_Model_Base extends Mage_Core_Model_Abstract
 		$pars = array();
 		$pars["merchantid"] = $this->merchantId;
 		$pars["trxid"] = $trxid;
+		if($this->amount > 0)
+			$pars["amount"] = round($this->amount * 100.0);
 		$pars["sha1"] = sha1($trxid . $this->merchantId . $this->merchantKey);
 		if (!$this->send("RefundRequest", $pars))
 			return -1;
